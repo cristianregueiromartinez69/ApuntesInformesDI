@@ -26,17 +26,31 @@ parrafo2 = Paragraph(cadena, estiloP)
 documento.append(parrafo2)
 
 documento.append(Spacer(0, 20))
-imagen = Image(os.path.relpath("/home/dam/Imágenes/vinivini.jpg"), width=200, height=200)
+imagen = Image(os.path.relpath("/home/dam/Imágenes/vinivini.jpg"), width=150, height=150)
 documento.append(imagen)
 
 
 documento.append(Spacer(0, 20))
-fila1 = ['', 'Lunes','Martes','Miercoles','Jueves','Viernes','Sábado','Domingo']
-manhana = ['Mañana', 'Estudiar','Gimnasio','Jugar resident evil','correr','ver al madrid','matarme a pajas','descansar']
-tarde = ['Tarde', 'Trabajar','Trabajar','Cagar','Trabajar','Trabajar','descanso','cagar y mear']
-Noche = ['Noche', 'descanso','Trabajar','descanso','Trabajar','salir','descanso','descanso y furbol']
+#listas para la tabla
+cabeceira = ['', 'Lunes','Martes','Miercoles','Jueves','Viernes','Sábado','Domingo']
+manhana = ['Mañana', 'Estudiar','Gimnasio','Jugar','correr','ver al madrid','cagar','descansar']
+tarde = ['Tarde', 'Trabajar','Trabajar','Cagar','Trabajar','Trabajar','descanso','cagar']
+Noche = ['Noche', 'descanso','Trabajar','descanso','Trabajar','salir','descanso','furbol']
+
+#se crea la tabla añadiendole la lista
+tabla = Table([cabeceira,manhana,tarde,Noche])
+documento.append(tabla)
+
+#diferentes estilos para la tabla
+tabla.setStyle([('BACKGROUND', (1,1), (-1,-1), colors.lightgrey)]) #fondo de la tabla
+tabla.setStyle([('BOX',(1,1), (-1,-1),0.5, colors.darkgrey)]) # caja que engloba la tabla
+tabla.setStyle([('INNERGRID', (1,1), (-1, -1), 0.25, colors.white)]) #lineas de la tabla
+tabla.setStyle([('TEXTCOLOR', (0,0), (0,-1), colors.red)]) #texto de la tabña izquierda
+tabla.setStyle([('TEXTCOLOR', (1,0), (-1,0), colors.pink)]) # texto de la tabla arriba
+
+documento.append(Spacer(0, 20))
 
 
 
-doc = SimpleDocTemplate("EjemploPlatypus.pdf", pagesize=A4, showBoundary=1)
+doc = SimpleDocTemplate("EjemploPlatypusTabla.pdf", pagesize=A4, showBoundary=1)
 doc.build(documento)
