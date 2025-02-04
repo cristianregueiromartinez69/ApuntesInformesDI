@@ -88,11 +88,11 @@ for i, fila in enumerate(temperaturaTablas):
                 estiloTablaTemperaturas.append(('TEXTCOLOR', (j,i), (j,i), colors.black))
                 if valor > 30:
                     estiloTablaTemperaturas.append(('BACKGROUND', (j,i), (j,i), colors.red))
-                elif valor <= 30 and valor > 20:
+                elif 30 >= valor > 20:
                     estiloTablaTemperaturas.append(('BACKGROUND', (j,i), (j,i), colors.orange))
-                elif valor <= 20 and valor > 10:
+                elif 20 >= valor > 10:
                     estiloTablaTemperaturas.append(('BACKGROUND', (j, i), (j, i), colors.lightpink))
-                elif valor <= 10 and valor > 0:
+                elif 10 >= valor > 0:
                     estiloTablaTemperaturas.append(('BACKGROUND', (j, i), (j, i), colors.lightblue))
             else:
                 estiloTablaTemperaturas.append(('TEXTCOLOR', (j, i), (j, i), colors.blue))
