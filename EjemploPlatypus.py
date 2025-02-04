@@ -50,7 +50,19 @@ tabla.setStyle([('TEXTCOLOR', (1,0), (-1,0), colors.pink)]) # texto de la tabla 
 
 documento.append(Spacer(0, 20))
 
+datos = [['Esquina sup', '', '02', '03', '04'],
+         ['', '', '12', '13', '14'],
+         ['20', '21', '22', 'Esquina inf', ''],
+         ['30', '31', '32', '', '']]
 
+estilo = [('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+          ('BACKGROUND', (0,0), (1,1), colors.lavenderblush),
+          ('SPAN', (0,0), (1,1)),
+          ('BACKGROUND', (-2,-2), (-1,-1), colors.bisque),
+          ('SPAN', (3,2), (-1,-1))]
+
+tabla2 = Table(data= datos, style= estilo)
+documento.append(tabla2)
 
 doc = SimpleDocTemplate("EjemploPlatypusTabla.pdf", pagesize=A4, showBoundary=1)
 doc.build(documento)
