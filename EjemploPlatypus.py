@@ -69,5 +69,37 @@ estilo = [('LINEABOVE', (0, 0), (4,0), 1, colors.blue),
 tabla2 = Table(data=datos, style=estilo)
 documento.append(tabla2)
 
+documento.append(Spacer(0, 20))
+
+temperaturaTablas = [['','Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'],
+                     ['Máximas', 15, 16, 20, 25, 27, 31, 35, 38, 33, 25, 20, 18],
+                     ['Mínimas', -3, -4, -1, 5, 7, 9, 12, 15, 16, 10, 2, -1]]
+
+estiloTablaTemperaturas = [('TEXTCOLOR', (0,0), (-1, 0), colors.grey),
+                           ('TEXTCOLOR', (0,1), (0, -1), colors.grey),
+                           ('BOX', (1,1), (-1,-1), 1.5, colors.grey),
+                           ('INNERGRID', (1,1), (-1, -1), 0.5, colors.grey)]
+
+
+for i, fila in enumerate(temperaturaTablas):
+    for j, valor in enumerate(fila):
+        if type(valor) == int:
+            if valor > 0:
+                estiloTablaTemperaturas.append(('TEXTCOLOR', (j,i), (j,i), colors.black))
+                if valor > 30:
+                    estiloTablaTemperaturas.append(('BACKGROUND', (j,i), (j,i), colors.red))
+                elif valor <= 30 and valor > 20:
+                    estiloTablaTemperaturas.append(('BACKGROUND', (j,i), (j,i), colors.orange))
+                elif valor <= 20 and valor > 10:
+                    estiloTablaTemperaturas.append(('BACKGROUND', (j, i), (j, i), colors.lightpink))
+                elif valor <= 10 and valor > 0:
+                    estiloTablaTemperaturas.append(('BACKGROUND', (j, i), (j, i), colors.lightblue))
+            else:
+                estiloTablaTemperaturas.append(('TEXTCOLOR', (j, i), (j, i), colors.blue))
+                estiloTablaTemperaturas.append(('BACKGROUND', (j, i), (j, i), colors.lightgrey))
+
+tabla3 = Table(data = temperaturaTablas, style=estiloTablaTemperaturas)
+documento.append(tabla3)
+
 doc = SimpleDocTemplate("EjemploPlatypusTabla.pdf", pagesize=A4, showBoundary=1)
 doc.build(documento)
