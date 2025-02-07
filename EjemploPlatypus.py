@@ -1,5 +1,9 @@
 import os
+
+from reportlab.graphics.shapes import Drawing
 from reportlab.platypus import Paragraph, Image, SimpleDocTemplate, Spacer
+from reportlab.graphics.charts.barcharts import VerticalBarChart, VerticalBarChart3D
+from reportlab.graphics.charts.linecharts import LineChart
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -75,6 +79,7 @@ temperaturaTablas = [['','Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago',
                      ['Máximas', 15, 16, 20, 25, 27, 31, 35, 38, 33, 25, 20, 18],
                      ['Mínimas', -3, -4, -1, 5, 7, 9, 12, 15, 16, 10, 2, -1]]
 
+
 estiloTablaTemperaturas = [('TEXTCOLOR', (0,0), (-1, 0), colors.grey),
                            ('TEXTCOLOR', (0,1), (0, -1), colors.grey),
                            ('BOX', (1,1), (-1,-1), 1.5, colors.grey),
@@ -100,6 +105,56 @@ for i, fila in enumerate(temperaturaTablas):
 
 tabla3 = Table(data = temperaturaTablas, style=estiloTablaTemperaturas)
 documento.append(tabla3)
+
+#graficos
+
+grafica = VerticalBarChart()
+#grafica2 = VerticalBarChart3D()
+dibujo = Drawing(400, 200)
+dibujo.add(grafica)
+documento.append(Spacer(0, 20))
+documento.append(dibujo)
+
+grafica.x = 50
+grafica.y = 50
+grafica.height = 125
+grafica.width = 300
+
+grafica.strokeColor = colors.black
+grafica.valueAxis.valueMin = -10
+grafica.valueAxis.valueMax = 50
+grafica.valueAxis.valueStep = 5
+
+grafica.categoryAxis.labels.boxAnchor = 'ne'
+grafica.categoryAxis.labels.dx = 8
+grafica.categoryAxis.labels.dy = -2
+grafica.categoryAxis.labels.angle = 30
+grafica.categoryAxis.categoryNames = temperaturaTablas[0][1:]
+grafica.groupSpacing = 10 #agrupas los 2 como datos, tanto maxima como minima pero los separas de los demás
+grafica.barSpacing  = 2 #separacion de unidades de enero, febrero...
+grafica.bars[0].fillColor = colors.fidred
+grafica.bars[1].fillColor = colors.lightblue #cambiar el color de la barra
+grafica.bars[1].strokeColor = colors.pink #color de la lina del grafico
+grafica.data = [temperaturaTablas[1][1:], temperaturaTablas[2][1:]] #datos que recibe la gráfica
+
+
+#grafica de lineas
+grafica2 = LineChart()
+dibujoLineChart = Drawing(400, 200)
+dibujoLineChart.add(grafica2)
+documento.append(dibujoLineChart)
+
+#propiedades graficos 2
+documento.append(Spacer(0, 20))
+
+grafica2.x = 30
+grafica2.y = 50
+grafica2.height = 125
+grafica2.width = 350
+
+
+
+
 
 doc = SimpleDocTemplate("EjemploPlatypusTabla.pdf", pagesize=A4, showBoundary=1)
 doc.build(documento)
