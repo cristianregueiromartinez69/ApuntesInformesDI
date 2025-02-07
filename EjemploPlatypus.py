@@ -7,6 +7,7 @@ from reportlab.graphics.charts.barcharts import VerticalBarChart, VerticalBarCha
 from reportlab.graphics.charts.linecharts import LineChart, HorizontalLineChart
 from reportlab.graphics.charts.lineplots import LinePlot
 from reportlab.graphics.charts.legends import LineLegend, Legend
+from reportlab.graphics.charts.textlabels import Label
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -172,6 +173,16 @@ grafica2.lines[1].strokeColor = colors.blue
 
 
 dibujoPlot = Drawing(400, 200)
+
+etiqueta = Label()
+etiqueta.setOrigin(175, 195)
+etiqueta.dx = 0
+etiqueta.dy = -5
+etiqueta.boxStrokeColor = colors.grey
+etiqueta.setText("Una grafica\n con 2 series")
+dibujoPlot.add(etiqueta)
+
+
 grafica3 = LinePlot()
 dibujoPlot.add(grafica3)
 
