@@ -6,10 +6,13 @@ from reportlab.platypus import Paragraph, Image, SimpleDocTemplate, Spacer
 from reportlab.graphics.charts.barcharts import VerticalBarChart, VerticalBarChart3D
 from reportlab.graphics.charts.linecharts import LineChart, HorizontalLineChart
 from reportlab.graphics.charts.lineplots import LinePlot
+from reportlab.graphics.charts.legends import LineLegend, Legend
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.platypus import Table
+
+from EjemploUsoFlowables import ancho
 
 hojaEstilo = getSampleStyleSheet()
 
@@ -171,7 +174,6 @@ grafica2.lines[1].strokeColor = colors.blue
 dibujoPlot = Drawing(400, 200)
 grafica3 = LinePlot()
 dibujoPlot.add(grafica3)
-documento.append(dibujoPlot)
 
 datosPlot = [
     ((1,1), (2,2), (2.5,2), (3,3.5), (4,7)),
@@ -196,6 +198,20 @@ grafica3.yValueAxis.valueMax = 8
 grafica3.yValueAxis.valueSteps = [1,2,3,5,6]
 
 
+#lineas de line legend
+leyenda = LineLegend()
+leyenda.fontName = 'Helvetica'
+leyenda.fontSize = 7
+leyenda.alignment = 'right'
+
+leyenda.x = 30
+leyenda.y = 20
+leyenda.columnMaximum = 2
+etiquetas = ['Caso 1', 'Caso2']
+
+leyenda.colorNamePairs = [(grafica3.lines[i].strokeColor, etiquetas[i]) for i in range(len(grafica3.data))]
+dibujoPlot.add(leyenda)
+documento.append(dibujoPlot)
 
 doc = SimpleDocTemplate("EjemploPlatypusTabla.pdf", pagesize=A4, showBoundary=1)
 doc.build(documento)
