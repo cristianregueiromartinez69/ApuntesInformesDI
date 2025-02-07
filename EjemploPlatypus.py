@@ -1,9 +1,10 @@
 import os
 
 from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.platypus import Paragraph, Image, SimpleDocTemplate, Spacer
 from reportlab.graphics.charts.barcharts import VerticalBarChart, VerticalBarChart3D
-from reportlab.graphics.charts.linecharts import LineChart
+from reportlab.graphics.charts.linecharts import LineChart, HorizontalLineChart
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -120,7 +121,7 @@ grafica.y = 50
 grafica.height = 125
 grafica.width = 300
 
-grafica.strokeColor = colors.black
+grafica.strokeColor = colors.black #esta linea si la dejas en 3D genera error
 grafica.valueAxis.valueMin = -10
 grafica.valueAxis.valueMax = 50
 grafica.valueAxis.valueStep = 5
@@ -139,7 +140,7 @@ grafica.data = [temperaturaTablas[1][1:], temperaturaTablas[2][1:]] #datos que r
 
 
 #grafica de lineas
-grafica2 = LineChart()
+grafica2 = HorizontalLineChart()
 dibujoLineChart = Drawing(400, 200)
 dibujoLineChart.add(grafica2)
 documento.append(dibujoLineChart)
@@ -152,7 +153,18 @@ grafica2.y = 50
 grafica2.height = 125
 grafica2.width = 350
 
+grafica2.data = [temperaturaTablas[1][1:], temperaturaTablas[2][1:]]
 
+grafica2.categoryAxis.categoryNames = temperaturaTablas[0][1:]
+grafica2.categoryAxis.labels.boxAnchor = 'ne'
+grafica2.valueAxis.valueMin = -10
+grafica2.valueAxis.valueMax = 50
+grafica2.valueAxis.valueStep = 10
+grafica2.lines[0].strokeWidth = 2
+grafica2.lines[0].symbol = makeMarker('FilledCircle')
+grafica2.lines[1].strokeWidth = 1.5
+grafica2.lines[0].strokeColor = colors.red
+grafica2.lines[1].strokeColor = colors.blue
 
 
 
