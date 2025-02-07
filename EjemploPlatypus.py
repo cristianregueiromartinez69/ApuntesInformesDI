@@ -196,6 +196,8 @@ grafica3.xValueAxis.valueMax = 5
 grafica3.yValueAxis.valueMin = 0
 grafica3.yValueAxis.valueMax = 8
 grafica3.yValueAxis.valueSteps = [1,2,3,5,6]
+grafica3.lines[0].strokeColor = colors.red
+grafica3.lines[1].strokeColor = colors.blue
 
 
 #lineas de line legend
@@ -209,7 +211,9 @@ leyenda.y = 20
 leyenda.columnMaximum = 2
 etiquetas = ['Caso 1', 'Caso2']
 
-leyenda.colorNamePairs = [(grafica3.lines[i].strokeColor, etiquetas[i]) for i in range(len(grafica3.data))]
+#leyenda.colorNamePairs = [(grafica3.lines[i].strokeColor, etiquetas[i]) for i in range(len(grafica3.data))]
+
+leyenda.colorNamePairs = [(colors.red, etiquetas[0]), (colors.blue, etiquetas[1])]
 dibujoPlot.add(leyenda)
 documento.append(dibujoPlot)
 
