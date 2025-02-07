@@ -5,6 +5,7 @@ from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.platypus import Paragraph, Image, SimpleDocTemplate, Spacer
 from reportlab.graphics.charts.barcharts import VerticalBarChart, VerticalBarChart3D
 from reportlab.graphics.charts.linecharts import LineChart, HorizontalLineChart
+from reportlab.graphics.charts.lineplots import LinePlot
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -165,6 +166,34 @@ grafica2.lines[0].symbol = makeMarker('FilledCircle')
 grafica2.lines[1].strokeWidth = 1.5
 grafica2.lines[0].strokeColor = colors.red
 grafica2.lines[1].strokeColor = colors.blue
+
+
+dibujoPlot = Drawing(400, 200)
+grafica3 = LinePlot()
+dibujoPlot.add(grafica3)
+documento.append(dibujoPlot)
+
+datosPlot = [
+    ((1,1), (2,2), (2.5,2), (3,3.5), (4,7)),
+    ((1,2), (2,3), (2.5,1), (3.5, 3), (4,2))
+]
+grafica3.data = datosPlot
+grafica3.x = 30
+grafica3.y = 50
+grafica3.height = 125
+grafica3.width = 350
+
+grafica3.joinedLines = 1
+grafica3.fillColor = colors.lightsalmon
+grafica3.lines[0].symbol = makeMarker('FilledCircle')
+grafica3.lines[1].symbol = makeMarker('Triangle')
+grafica3.lineLabelFormat = '%2.0f'
+grafica3.strokeColor = colors.gray
+grafica3.xValueAxis.valueMin = 0
+grafica3.xValueAxis.valueMax = 5
+grafica3.yValueAxis.valueMin = 0
+grafica3.yValueAxis.valueMax = 8
+grafica3.yValueAxis.valueSteps = [1,2,3,5,6]
 
 
 
