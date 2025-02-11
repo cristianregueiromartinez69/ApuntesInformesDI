@@ -8,6 +8,9 @@ from reportlab.graphics.charts.linecharts import LineChart, HorizontalLineChart
 from reportlab.graphics.charts.lineplots import LinePlot
 from reportlab.graphics.charts.legends import LineLegend, Legend
 from reportlab.graphics.charts.textlabels import Label
+from reportlab.graphics.charts.piecharts import Pie, Pie3d
+
+
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -227,6 +230,65 @@ etiquetas = ['Caso 1', 'Caso2']
 leyenda.colorNamePairs = [(colors.red, etiquetas[0]), (colors.blue, etiquetas[1])]
 dibujoPlot.add(leyenda)
 documento.append(dibujoPlot)
+
+documento.append(Spacer(0, 20))
+
+#graficos de tartitas bonitas
+dibujotarta = Drawing(300, 200)
+#tartita = Pie()
+tartita = Pie3d()
+tartita.x = 60
+tartita.y = 15
+tartita.width = 200
+tartita.height = 130
+tartita.data = [8, 6, 2, 4, 7, 3]
+tartita.labels = ["AD", "PMDM", "EIE", "SXE", "DI", "PSP"]
+
+
+tartita.slices.strokeWidth = 0.5 #en que rodajas se va a dividir la tartita bonita
+tartita.slices[4].popout = 10
+tartita.slices[4].strokeWidth = 2
+tartita.slices[4].strokeDashArray = [2,2] #porcion del dibujo de negro y blanco
+tartita.slices[4].labelRadius = 1.75 # se desplaza el trozo de tarta
+tartita.slices[4].fontColor = colors.red #destacar las letras de la tarta
+tartita.sideLabels = 1 #señala a las letras de las etiquetas
+tartita.slices.labelRadius = 2.1
+
+
+leyendaTartita = Legend()
+leyendaTartita.x = 370
+leyendaTartita.y = 10
+leyendaTartita.dx = 8
+leyendaTartita.dy = 8
+
+leyendaTartita.fontName = "Helvetica"
+leyendaTartita.fontSize = 7
+leyendaTartita.boxAnchor = 'n'
+leyendaTartita.columnMaximum = 10
+leyendaTartita.strokeWidth = 1
+leyendaTartita.strokeColor = colors.black
+leyendaTartita.deltax = 75
+leyendaTartita.deltay = 10
+leyendaTartita.autoXPadding = 5
+leyendaTartita.yGap = 0
+leyendaTartita.dxTextSpace = 5
+leyendaTartita.alignment = 'right'
+leyendaTartita.dividerLines = 1|2|4 #cuales son las lineas divisorias
+leyendaTartita.dividerOffsY = 4.5
+leyendaTartita.subCols.rpad = 30
+
+cores = [colors.red, colors.blue, colors.green, colors.orange, colors.yellow, colors.pink]
+for i, color in enumerate(cores):
+    tartita.slices[i].fillColor = color
+
+leyendaTartita.colorNamePairs = [(tartita.slices[i].fillColor, (tartita.labels[i][0:20], '%0.2f' %tartita.data[i])) for i in range(len(tartita.data))]
+
+
+
+dibujotarta.add(tartita)
+dibujotarta.add(leyendaTartita)
+documento.append(dibujotarta)
+
 
 doc = SimpleDocTemplate("EjemploPlatypusTabla.pdf", pagesize=A4, showBoundary=1)
 doc.build(documento)
