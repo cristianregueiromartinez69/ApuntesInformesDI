@@ -3,10 +3,7 @@ import os
 from reportlab.graphics.shapes import Drawing, Line
 from reportlab.platypus import Paragraph, Image, SimpleDocTemplate, Spacer, Frame, PageTemplate, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
 from reportlab.graphics.shapes import Drawing
-from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.platypus import Paragraph, Image, SimpleDocTemplate, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
@@ -67,9 +64,9 @@ estilosConfianza = ParagraphStyle(
 
 #informacion izquierda
 parrafoFactura = Paragraph("FACTURA SIMPLIFICADA", estiloParrafoFactura)
-parrafoFechaEmision = Paragraph("Fecha Emisión: 20/12/2022", estilosNumeroFecha)
+parrafoFechaEmision = Paragraph("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Emisión: 20/12/2022", estilosNumeroFecha)
 parrafoNumeroFactura = Paragraph("Número de Factura: 10001", estilosNumeroFecha)
-logoImagenFactura = Image(os.path.relpath("C:/Users/crm23/OneDrive/Imágenes/umbrellaCorp.png"), width=50, height=50)
+logoImagenFactura = Image(os.path.relpath("/home/dam/Imágenes/empresaFake2.png"), width=50, height=50)
 
 #informacion derecha
 parrafoNombreEmpresa = Paragraph("UMBRELLA CORPORATION", estiloInformacion)
@@ -145,44 +142,85 @@ linea.strokeColor = colors.black
 linea.strokeWidth = 2
 dibujoLinea.add(linea)
 
+#lineas bordes izquierda
+dibujoLineaVerdeOscura = Drawing(20, 20)
+lineaVerdeOscura = Line(25,15,25, 60)
+lineaVerdeOscura.strokeColor = colors.darkgreen
+lineaVerdeOscura.strokeWidth = 25
+dibujoLineaVerdeOscura.add(lineaVerdeOscura)
+
+dibujoLineaVerdeClara1 = Drawing(20, 50)
+lineaVerdeClara1 = Line(25,15,25, 340)
+lineaVerdeClara1.strokeColor = colors.lightgreen
+lineaVerdeClara1.strokeWidth = 25
+dibujoLineaVerdeClara1.add(lineaVerdeClara1)
+
+dibujoLineaVerdeClara2 = Drawing(20, 50)
+lineaVerdeClara2 = Line(25,15,25, 200)
+lineaVerdeClara2.strokeColor = colors.lightgreen
+lineaVerdeClara2.strokeWidth = 25
+dibujoLineaVerdeClara2.add(lineaVerdeClara2)
+
+
+
+frame_linea_verde_oscura_borde_izquierdo = Frame(
+    x1= -10, y1 = 740,
+    width=50, height=50,
+    showBoundary=0
+)
+
+frame_linea_verde_clara1_borde_izquierdo = Frame(
+    x1= -10, y1 = 200,
+    width=30, height=300,
+    showBoundary=0
+)
+
+frame_linea_verde_clara2_borde_izquierdo = Frame(
+    x1= -10, y1 = 90,
+    width=30, height=300,
+    showBoundary=0
+)
+
 frame_info_general = Frame(
-    x1=350, y1= 700,
+    x1=350, y1= 710,
     width=300, height=100,
     showBoundary=0
 )
 
 frame_datos_factura = Frame(
-    x1=40, y1=500,
+    x1=40, y1=600,
     width=300, height=200,
     showBoundary=0
 )
 
 frame_tabla_datos = Frame(
-    x1 = 100, y1 = 400,
+    x1 = 100, y1 = 450,
     width=400, height=140,
     showBoundary=0
 )
 
 frame_tabla_total = Frame(
-    x1=368, y1=350,
+    x1=370, y1=400,
     width=100, height=50,
     showBoundary=0
 )
 
 frame_linea_separatoria = Frame(
-    x1=10, y1=290,
+    x1=10, y1=360,
     width=400, height=30,
     showBoundary=0
 )
 
 frame_gracias_confianza = Frame(
-    x1 = 190, y1 = 230,
+    x1 = 190, y1 = 300,
     width=240, height=50,
     showBoundary=0
 )
 
 
-plantillaIzquierda = PageTemplate(id="Factura", frames=[frame_info_general, frame_datos_factura, frame_tabla_datos, frame_tabla_total, frame_linea_separatoria, frame_gracias_confianza])
+
+
+plantillaIzquierda = PageTemplate(id="Factura", frames=[frame_info_general, frame_datos_factura, frame_tabla_datos, frame_tabla_total, frame_linea_separatoria, frame_gracias_confianza, frame_linea_verde_oscura_borde_izquierdo, frame_linea_verde_clara1_borde_izquierdo, frame_linea_verde_clara2_borde_izquierdo])
 
 doc = SimpleDocTemplate("EjercicioFactura.pdf", pagesize=A4, showBoundary=0)
 
@@ -190,7 +228,7 @@ doc.addPageTemplates([plantillaIzquierda])
 
 
 contenido_factura_izquierda = [parrafoFactura, Spacer(0,20), parrafoFechaEmision, Spacer(0, 5),  parrafoNumeroFactura]
-contenido_factura_derecha = [parrafoNombreEmpresa, Spacer(0, 20), parrafoDirrecion,
+contenido_factura_derecha = [Spacer(0,15),parrafoNombreEmpresa, Spacer(0, 20), parrafoDirrecion,
                              Spacer(0,10), parrafoCiudad,  Spacer(0,10),
                              parrafoNif, Spacer(0,10), parrafoTelefono,Spacer(0,10),
                              parrafoEmail]
@@ -198,8 +236,11 @@ contenido_tabla = [Spacer(50, 60), tabla]
 contenido_total_tabla = [Spacer(0,2), tablaResultado]
 contenido_dibujo_linea = [Spacer(width=0, height=10), dibujoLinea]
 contenido_gracias = [Spacer(width=0, height=2), parrafoGracias]
+contenido_lineas_izquierda = [Spacer(0,10), dibujoLineaVerdeOscura]
+contenido_lineas_izquierda2 = [Spacer(0,10), dibujoLineaVerdeClara1]
+contenido_lineas_izquierda3 = [Spacer(0,142), dibujoLineaVerdeClara2]
 
 
-doc.build(contenido_factura_izquierda + contenido_factura_derecha + contenido_tabla +  contenido_total_tabla + contenido_dibujo_linea + contenido_gracias)
+doc.build(contenido_factura_izquierda + contenido_factura_derecha + contenido_tabla +  contenido_total_tabla + contenido_dibujo_linea + contenido_gracias + contenido_lineas_izquierda + contenido_lineas_izquierda2 + contenido_lineas_izquierda3)
 
 
