@@ -10,6 +10,42 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.platypus import Table
 
+#apartado de incorporar la base de datos
+'''
+marxeSup = A4[1] - 2*cm
+marxeInf = 1.5*cm
+marxeEsq = 3*cm
+marxeDer = A4[0] - 1.5*cm
+anchoPagina = marxeDer - marxeEsq
+
+bbdd = dbapi.connect("bbdd.dat")
+cursor = bbdd.cursor()
+cursor.execute(""""""select id_factura, fecha emision, id_empresa, numero_factura from Factura"""""")
+logo = []
+facturas = []
+for factura in cursor.fetchall():
+    facturas.append(factura)
+for i, factura in enumerate (facturas):
+    c = Canvas('facturaNum' + str(i) + '.pdf', pagesize=A4)
+    logo.append(Image("/home/dam/Imágenes/empresaFake.png"), width=100, height=55)
+    frmLogo = Frame(marxeDer-100, marxeSuperior-55, 100, 70, showBoundary=0)
+    frmLogo.addFromList(logo,c)
+    tx = c.beginText(marxeDer-105, marxeSup-60)
+    tx.setFont("Helvetica", 14)
+    tx.textLine("Electropachachos")
+    c.drawText(tx)
+    frmDatosFactura = Frame(marxeDere - 100, marxeSup - 120, 90, 50, showBoundary=0)
+    
+    tblaDatosFact = Table(data = (('Data de emisión: ', factura[1]), 'Número factura', factura[3] )))
+    frmDatosFactura.addFrimList(list().append(tblDatosFact), c)
+    
+    
+    cursor.execute(""""""select nome, direccion, cidade, pais, email, cif_nif, telefono fromm Empresa where id = ?"""""",(factura[2],)
+    frmDatosCliente
+    tblDatoCLiente
+'''
+
+
 
 hojaEstilo = getSampleStyleSheet()
 
