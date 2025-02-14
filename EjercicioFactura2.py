@@ -20,6 +20,9 @@ estiloParrafoTitulo = ParagraphStyle(
     textColor=colors.black
 )
 
+#Imagenes
+imagenEmpresa = Image(os.path.relpath("/home/dam/Imágenes/logoSevDeesk .png"),100,20)
+
 #frames
 frame_titulo = Frame(
     x1=100, y1=760,
@@ -27,11 +30,18 @@ frame_titulo = Frame(
     showBoundary=1
 )
 
+frameImagenEmpresa = Frame(
+    x1=300, y1=750,
+    width=160, height=60,
+    showBoundary=1
+)
+
+
 #parrafos
 parrafor_titulo = Paragraph("Factura Proforma", estiloParrafoTitulo)
 
 #templates
-plantilla = PageTemplate(id="Factura2", frames=[frame_titulo])
+plantilla = PageTemplate(id="Factura2", frames=[frame_titulo, frameImagenEmpresa])
 
 doc = SimpleDocTemplate("EjercicioFactura2.pdf", pagesize=A4, showBoundary=0)
 
@@ -39,8 +49,9 @@ doc.addPageTemplates([plantilla])
 
 
 contenido_factura_titulo = [parrafor_titulo]
+contenidoImagenEmpresa = [Spacer(0,20),imagenEmpresa]
 
-doc.build(contenido_factura_titulo)
+doc.build(contenido_factura_titulo + contenidoImagenEmpresa)
 
 
 
