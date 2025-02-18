@@ -19,6 +19,8 @@ consultaDatoAlbaran = base.consultaConParametros("SELECT numeroAlbara, dataAlbar
 
 consultaDatoFechaClienteAlbaran = base.consultaConParametros("SELECT numeroCliente, dataEntrega FROM ventas WHERE numeroAlbara = ?", 1)
 
+consultaTablaUltimaFila1 = base.consultaConParametros("SELECT c.codigoProduto AS cpro, c.nomeProduto AS npro, c.cantidade AS cant FROM produtos c LEFT JOIN detalleVentas v ON v.codigoProduto = c.codigoProduto where c.codigoProduto = ?", 1)
+
 
 
 #estilos parrafos
@@ -92,6 +94,8 @@ def checkfechaClienteAlbara(consulta):
 
 numeroCliente, dataEntrega = checkfechaClienteAlbara(consultaDatoFechaClienteAlbaran)
 
+
+
 #elementos
 elemento1 = ["Número albará", numeroAlabara, "Data", fecha]
 elemento2 = ["Número cliente", numeroCliente, "Data entrega", dataEntrega]
@@ -121,9 +125,19 @@ tabla_datos1.setStyle(TableStyle([
     ('BOX', (0, 0), (-1, -1), 0.5, colors.darkgrey),
 ]))
 
+#DATOS A METER
+def checkProducto1(consulta):
+    if consulta:
+        cp = consulta[0][0]
+        desc = consulta[0][1]
+        cant = consulta[0][2]
+        return cp, desc, cant
+
+codigo, descripcion, cantidade = checkProducto1(consultaTablaUltimaFila1)
+
 #tabla detalle
 elemento_detalle_1 = ["Código producto", "descripción", "Cantidade", "Prezo unitario"]
-elemento_detalle_2 = [1, "Vespa 150", 1, "10500"]
+elemento_detalle_2 = [codigo, descripcion, cantidade, "10500"]
 elemento_detalle_3 = [2, "Casco retro", 2, "45"]
 
 tabla_detalle = Table(
@@ -131,6 +145,8 @@ tabla_detalle = Table(
     colWidths=[90, 80, 80, 90],
     rowHeights=25
 )
+
+
 
 tabla_detalle.setStyle(TableStyle([
     ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),  # Fondo azul claro en la cabecera
