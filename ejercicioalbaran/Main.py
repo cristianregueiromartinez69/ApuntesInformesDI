@@ -13,15 +13,11 @@ base.conectaBD()
 base.creaCursor()
 
 #consultas
-consultaDatoCliente = base.consultaConParametros("SELECT nomeCliente, apelidosCliente FROM clientes WHERE numeroCliente = ?", 1)
-
-consultaDatoAlbaran = base.consultaConParametros("SELECT numeroAlbara, dataAlbara FROM ventas WHERE numeroCliente = ?", 1)
-
-consultaDatoFechaClienteAlbaran = base.consultaConParametros("SELECT numeroCliente, dataEntrega FROM ventas WHERE numeroAlbara = ?", 1)
+consulta_primera_tabla = base.consultaConParametros("select  a.numeroAlbara as nalb, a.dataAlbara, a.numeroCliente as numcliente, a.dataEntrega as dataent, c.nomeCliente as nomcliente, c.apelidosCliente as apecliente from ventas a left join clientes c on c.numeroCliente = a.numeroCliente where c.numeroCliente = 1 LIMIT 1")
 
 consultaTablaUltimaFila1 = base.consultaConParametros("SELECT c.codigoProduto AS cpro, c.nomeProduto AS npro, c.cantidade AS cant FROM produtos c LEFT JOIN detalleVentas v ON v.codigoProduto = c.codigoProduto where c.codigoProduto = ?", 1)
 
-
+consultaTablaUltimaFila2 = base.consultaConParametros("SELECT c.codigoProduto AS cpro, c.nomeProduto AS npro, c.cantidade AS cant FROM produtos c LEFT JOIN detalleVentas v ON v.codigoProduto = c.codigoProduto where c.codigoProduto = 2")
 
 #estilos parrafos
 albaraEstilo = ParagraphStyle(
@@ -70,36 +66,24 @@ tabla_inicio.setStyle(TableStyle([
 #tabla_albara
 
 #datos que poner en la tabla
-def checkConsultaCliente(consulta):
+
+def checkPrimeraConsulta(consulta):
     if consulta:
-        nome = consulta[0][0]
-        apelidos = consulta[0][1]
-        return nome, apelidos
-nome, apelidos = checkConsultaCliente(consultaDatoCliente)
+        nAlb = consulta[0][0]
+        dat = consulta[0][1]
+        ncliente = consulta[0][2]
+        datent = consulta[0][3]
+        nomec = consulta[0][4]
+        apecli = consulta[0][5]
+        return nAlb, dat, ncliente, datent, nomec, apecli
 
-def checkNumeroAlabara(consulta):
-    if consulta:
-        numeroAlbara = consulta[0][0]
-        fecha = consulta[0][1]
-        return numeroAlbara, fecha
-
-numeroAlabara, fecha = checkNumeroAlabara(consultaDatoAlbaran)
-
-def checkfechaClienteAlbara(consulta):
-    if consulta:
-        nCliente =consulta[0][0]
-        data_entrega = consulta[0][1]
-        print(nCliente, data_entrega)
-        return nCliente, data_entrega
-
-numeroCliente, dataEntrega = checkfechaClienteAlbara(consultaDatoFechaClienteAlbaran)
-
+numeroAlbaran, dataAlbaran, numeroCliente, dataEntrega, nomeCliente, apelidoCliente = checkPrimeraConsulta(consulta_primera_tabla)
 
 
 #elementos
-elemento1 = ["Número albará", numeroAlabara, "Data", fecha]
+elemento1 = ["Número albará", numeroAlbaran, "Data", dataAlbaran]
 elemento2 = ["Número cliente", numeroCliente, "Data entrega", dataEntrega]
-elemento3 = ["Nome cliente", nome, "Apelidos", apelidos]
+elemento3 = ["Nome cliente", nomeCliente, "Apelidos", apelidoCliente]
 
 tabla_datos1 = Table(
     [elemento1, elemento2, elemento3],
@@ -135,14 +119,23 @@ def checkProducto1(consulta):
 
 codigo, descripcion, cantidade = checkProducto1(consultaTablaUltimaFila1)
 
+def checkProducto2(consulta):
+    if consulta:
+        cp = consulta[0][0]
+        desc = consulta[0][1]
+        cant = consulta[0][2]
+        return cp, desc, cant
+
+codigo2, descripcion2, cantidade2 = checkProducto2(consultaTablaUltimaFila2)
+
 #tabla detalle
 elemento_detalle_1 = ["Código producto", "descripción", "Cantidade", "Prezo unitario"]
 elemento_detalle_2 = [codigo, descripcion, cantidade, "10500"]
-elemento_detalle_3 = [2, "Casco retro", 2, "45"]
+elemento_detalle_3 = [codigo2, descripcion2, cantidade2, "45"]
 
 tabla_detalle = Table(
     [elemento_detalle_1, elemento_detalle_2, elemento_detalle_3],
-    colWidths=[90, 80, 80, 90],
+    colWidths=[82, 80, 80, 80],
     rowHeights=25
 )
 
@@ -167,11 +160,11 @@ contenido_tabla_albara = [tabla_datos1, Spacer(0, 10)]
 contenido_parrafo_detalle = [parrafodetalle, Spacer(0, 10)]
 contenido_tabla_detalle = [tabla_detalle, Spacer(0, 10)]
 
-frame_tabl1_inicio = Frame(x1=220, y1=650, width=160, height=50, showBoundary=1)
-frame_parrafo_albara = Frame(x1=120, y1=600, width=70, height=30, showBoundary=0)
-frame_tabla_albara = Frame(x1=120, y1=500, width=320, height=100, showBoundary=0)
-frame_contenido_parrafo_detalle = Frame(x1=120, y1=460, width=100, height=30, showBoundary=0)
-frame_tabla_detalle = Frame(x1=120, y1=360, width=320, height=100, showBoundary=0)
+frame_tabl1_inicio = Frame(x1=220, y1=650, width=165, height=43, showBoundary=1)
+frame_parrafo_albara = Frame(x1=120, y1=620, width=70, height=30, showBoundary=0)
+frame_tabla_albara = Frame(x1=120, y1=530, width=320, height=100, showBoundary=0)
+frame_contenido_parrafo_detalle = Frame(x1=120, y1=510, width=100, height=30, showBoundary=0)
+frame_tabla_detalle = Frame(x1=121, y1=420, width=320, height=100, showBoundary=0)
 
 def generar_contenido(canvas, doc):
     frame_tabl1_inicio.addFromList(contenido_tablaInicio, canvas)
